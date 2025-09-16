@@ -2,6 +2,7 @@
 
 async function buscarImagens(raça) {
   const url = `https://dog.ceo/api/breed/${raça}/images`
+ 
   try {
     const response = await fetch(url)
     const imagens = await response.json()
@@ -22,12 +23,15 @@ function mostrarImagens(listaDeImagens) {
   const galeria = document.getElementById('galeriaDog')
   galeria.innerHTML = ''
 
-  listaDeImagens.slice( ).forEach(url => {
+  listaDeImagens.forEach(url => {
     const img = document.createElement('img')
+    const selectImg = document.createElement('a')
     img.src = url
     img.alt = 'Imagem de cachorro'
     img.className = 'foto-cachorro'
-    galeria.appendChild(img)
+    selectImg.href = url
+    galeria.appendChild(selectImg)
+    selectImg.appendChild(img)
   })
 }
 
@@ -39,6 +43,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const raca = input.value.trim().toLowerCase()
     if (raca) {
       buscarImagens(raca)
+    }
+  })
+
+  input.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+      const raca = input.value.trim().toLowerCase()
+      if (raca) {
+        buscarImagens(raca)
+      }
     }
   })
 })
